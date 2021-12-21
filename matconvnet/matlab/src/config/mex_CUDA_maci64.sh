@@ -1,6 +1,6 @@
 #
 # mexopts.sh	Shell script for configuring MEX-file creation script,
-#               mex, to use NVCC for building GPU MEX files.
+#               mex, to use NVCC for building GPU MEX files. 
 #
 # usage:        Do not call this file directly; it is sourced by the
 #               mex shell script.  Modify only if you don't like the
@@ -48,44 +48,50 @@
 #----------------------------------------------------------------------------
             MATLAB="$MATLAB"
             ;;
-        glnxa64)
+        maci64)
 #----------------------------------------------------------------------------
-            RPATH="-Wl,-rpath-link,$TMW_ROOT/bin/$Arch"
             # StorageVersion: 1.0
             # CkeyName: nvcc
             # CkeyManufacturer: NVIDIA
-            # CkeyLanguage: C CUDA
+            # CkeyLanguage: C
             # CkeyVersion:
-            # CkeyLinkerName: GNU ld
+            # CkeyLinkerName:
             # CkeyLinkerVersion:
-            # $NVCC was set above.
-            CC='$NVCC'
-            CFLAGS=" -ccbin=gcc-4.4 -gencode=arch=compute_30,code=\\\"sm_30,compute_30\\\" -I$TMW_ROOT/toolbox/distcomp/gpu/extern/include --compiler-options=-ansi,-D_GNU_SOURCE,-fexceptions,-fPIC,-fno-omit-frame-pointer,-pthread"
-            CLIBS="$RPATH $MLIBS -lm -lmwgpu $TMW_ROOT/bin/$Arch/libcudart.so.5.0"
-            COPTIMFLAGS='-O -DNDEBUG'
+            CC="$NVCC"
+            MW_SDK_TEMP="find `xcode-select -print-path` -name MacOSX10.9.sdk"
+            MW_SDKROOT=`$MW_SDK_TEMP`
+            MACOSX_DEPLOYMENT_TARGET='10.9'
+            ARCHS='x86_64'
+            CFLAGS="-gencode=arch=compute_30,code=\\\"sm_30,compute_30\\\" -m 64 -I$TMW_ROOT/toolbox/distcomp/gpu/extern/include --compiler-options -fno-common,-arch,$ARCHS,-isysroot.$MW_SDKROOT,-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET,-fexceptions"
+            CLIBS="$MLIBS -lmwgpu -lcudart"
+            COPTIMFLAGS='-O2 -DNDEBUG'
             CDEBUGFLAGS='-g'
-            CLIBS="$CLIBS -lstdc++"
 #
+            CLIBS="$CLIBS -lstdc++"
             # C++keyName: nvcc
             # C++keyManufacturer: NVIDIA
-            # C++keyLanguage: C++ CUDA
+            # C++keyLanguage: C++
             # C++keyVersion:
-            # C++keyLinkerName: GNU ld
+            # C++keyLinkerName:
             # C++keyLinkerVersion:
-            # $NVCC was set above.
-            CXX='$NVCC'
-            CXXFLAGS=" -ccbin=gcc-4.4 -gencode=arch=compute_20,code=sm_20 -gencode=arch=compute_30,code=\\\"sm_30,compute_30\\\" -I$TMW_ROOT/toolbox/distcomp/gpu/extern/include --compiler-options=-ansi,-D_GNU_SOURCE,-fPIC,-fno-omit-frame-pointer,-pthread"
-            CXXLIBS="$RPATH $MLIBS -lm -lmwgpu $TMW_ROOT/bin/$Arch/libcudart.so.5.0"
-            CXXOPTIMFLAGS='-O -DNDEBUG'
+            CXX="$NVCC"
+            CXXFLAGS="-gencode=arch=compute_20,code=sm_21 -gencode=arch=compute_30,code=\\\"sm_30,compute_30\\\" -m 64 -I$TMW_ROOT/toolbox/distcomp/gpu/extern/include --compiler-options -fno-common,-fexceptions,-arch,$ARCHS,-isysroot,$MW_SDKROOT,-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
+            CXXLIBS="$MLIBS -lstdc++ -lmwgpu -lcudart"
+            CXXOPTIMFLAGS='-O2 -DNDEBUG'
             CXXDEBUGFLAGS='-g'
 #
-            LD="g++"
-            LDEXTENSION='.mexa64'
-            LDFLAGS="-pthread -shared -Wl,--version-script,$TMW_ROOT/extern/lib/$Arch/$MAPFILE -Wl,--no-undefined"
+            LD="xcrun -sdk macosx10.9 clang++"
+            LDEXTENSION='.mexmaci64'
+            LDFLAGS="-arch $ARCHS -Wl,-syslibroot,$MW_SDKROOT -mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
+            LDFLAGS="$LDFLAGS -bundle -Wl,-exported_symbols_list,$TMW_ROOT/extern/lib/$Arch/$MAPFILE"
             LDOPTIMFLAGS='-O'
             LDDEBUGFLAGS='-g'
+
+#         CXXFLAGS="-gencode=arch=compute_13,code=sm_13 -gencode=arch=compute_20,code=sm_20 -gencode=arch=compute_30,code=\\\"sm_30,compute_30\\\" -m 64 -I$TMW_ROOT/toolbox/distcomp/gpu/extern/include --compiler-options -fno-common,-fexceptions,-arch,$ARCHS,-isysroot,$MW_SDKROOT,-mmacosx-version-min=$MACOSX_DEPLOYMENT_TARGET"
 #
             POSTLINK_CMDS=':'
+#----------------------------------------------------------------------------
+            ;;
     esac
 #############################################################################
 #
