@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D375DB518A7F064008A97EE"
-               BuildableName = "matconv GPU"
-               BlueprintName = "matconv GPU"
+               BlueprintIdentifier = "2D1880FA1A7BBD73007C7586"
+               BuildableName = "matconv cuDNN"
+               BlueprintName = "matconv cuDNN"
                ReferencedContainer = "container:matconvnet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2D375DB518A7F064008A97EE"
-            BuildableName = "matconv GPU"
-            BlueprintName = "matconv GPU"
+            BlueprintIdentifier = "2D1880FA1A7BBD73007C7586"
+            BuildableName = "matconv cuDNN"
+            BlueprintName = "matconv cuDNN"
             ReferencedContainer = "container:matconvnet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2D375DB518A7F064008A97EE"
-            BuildableName = "matconv GPU"
-            BlueprintName = "matconv GPU"
+            BlueprintIdentifier = "2D1880FA1A7BBD73007C7586"
+            BuildableName = "matconv cuDNN"
+            BlueprintName = "matconv cuDNN"
             ReferencedContainer = "container:matconvnet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
